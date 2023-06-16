@@ -1,0 +1,39 @@
+import json
+import boto3
+
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+    #bucket and key
+    bucket = 'transactionstore162023'
+    key = 'sample.json'
+    response = s3.get_object(Bucket=bucket, Key=key)
+    
+    content = response['Body']
+    jsonObject = json.loads(content.read())
+    transactions = jsonObject['transactions']
+    
+    for transaction in transactions:
+        print('TransactionType=' + transaction['transactionType'])
+        print('Amount=' + str(transaction['amount']))
+        
+        
+        
+        
+  ----
+  {
+  "transactions": [
+    {
+      "transactionType": "PURCHASE",
+      "amount": 34.78
+    },
+    {
+      "transactionType": "REFUND",
+      "amount": 25.88
+    },
+    {
+      "transactionType": "PURCHASE",
+      "amount": 40.78
+    }
+  ]
+}
