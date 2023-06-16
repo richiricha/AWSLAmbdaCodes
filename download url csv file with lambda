@@ -1,0 +1,22 @@
+import csv
+import requests
+#from botocore.vendored import requests
+
+url = 'https://people.sc.fsu.edu/~jburkardt/data/csv/snakes_count_10.csv'
+
+def lambda_handler(event, context):
+    #session
+    session = requests.Session()
+    
+    #raw_data
+    raw_data = session.get(url)
+    
+    #decode code
+    decode_code = raw_data.content.decode('UTF-8')
+    
+    #reader
+    reader = csv.reader(decode_code.splitlines(), delimiter=',')
+    
+    rows = list(reader)
+    for row in rows:
+        print(row)
