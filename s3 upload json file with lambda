@@ -1,0 +1,17 @@
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+    # bucket
+    bucket = 'transactionstore162023'
+    fileBody = {}
+    fileBody['transactionId'] = '123'
+    fileBody['transactionType'] = 'PURCHASE'
+    fileBody['amount'] = 55
+    fileBody['cust'] = 'cust1'
+    
+    fileName = 'cust1.json'
+    fileBodyContent = bytes(json.dumps(fileBody).encode('utf-8'))
+    
+    s3.put_object(Bucket = bucket, Key = fileName, Body = fileBodyContent)
+    
+    print('Upload Complete...')
